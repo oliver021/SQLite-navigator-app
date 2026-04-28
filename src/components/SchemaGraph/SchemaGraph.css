@@ -1,0 +1,293 @@
+/* ==========================================================================
+   SCHEMA GRAPH — ER Diagram view powered by Mermaid
+   ========================================================================== */
+.schema-graph {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+/* ---- Toolbar ---- */
+.sg-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border-subtle);
+  flex-shrink: 0;
+}
+.sg-toolbar-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.sg-toolbar-divider {
+  width: 1px;
+  height: 22px;
+  background: var(--border-medium);
+  margin: 0 6px;
+}
+.sg-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.sg-spacer { flex: 1; }
+
+/* Toolbar buttons */
+.sg-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-secondary);
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+.sg-btn:hover {
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-primary);
+  border-color: var(--accent-indigo);
+}
+.sg-btn.primary {
+  background: linear-gradient(135deg, var(--accent-indigo), var(--accent-violet));
+  border: none;
+  color: white;
+  font-weight: 600;
+}
+.sg-btn.primary:hover {
+  box-shadow: 0 0 14px rgba(124, 58, 237, 0.25);
+  transform: translateY(-1px);
+}
+
+/* Zoom controls */
+.sg-zoom-controls {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+.sg-zoom-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+.sg-zoom-btn:hover {
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-primary);
+}
+.sg-zoom-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  min-width: 42px;
+  text-align: center;
+}
+
+/* ---- Canvas ---- */
+.sg-canvas {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  position: relative;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(124, 58, 237, 0.03) 0%, transparent 70%),
+    repeating-linear-gradient(0deg,   transparent, transparent 39px, rgba(255,255,255,0.015) 39px, rgba(255,255,255,0.015) 40px),
+    repeating-linear-gradient(90deg,  transparent, transparent 39px, rgba(255,255,255,0.015) 39px, rgba(255,255,255,0.015) 40px);
+  cursor: grab;
+}
+.sg-canvas:active {
+  cursor: grabbing;
+}
+.sg-canvas-inner {
+  transform-origin: 0 0;
+  min-width: 100%;
+  min-height: 100%;
+  display: inline-block;
+  padding: 40px;
+}
+
+/* Mermaid overrides for dark theme */
+.sg-canvas-inner .edgeLabel {
+  background: var(--bg-elevated) !important;
+  color: var(--text-secondary) !important;
+  font-size: 10px !important;
+}
+.sg-canvas-inner .entityBox {
+  fill: var(--bg-elevated) !important;
+  stroke: var(--border-medium) !important;
+}
+.sg-canvas-inner .entityTitleText {
+  fill: var(--accent-cyan) !important;
+  font-weight: 600 !important;
+}
+.sg-canvas-inner .attributeBoxOdd {
+  fill: rgba(15, 15, 28, 0.8) !important;
+}
+.sg-canvas-inner .attributeBoxEven {
+  fill: rgba(20, 20, 38, 0.8) !important;
+}
+
+/* ---- Info bar at the bottom ---- */
+.sg-info-bar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 6px 16px;
+  background: var(--bg-surface);
+  border-top: 1px solid var(--border-subtle);
+  flex-shrink: 0;
+}
+.sg-stat {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+.sg-stat strong {
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+/* ---- Export modal ---- */
+.sg-export-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  animation: fade-in 0.15s ease;
+}
+.sg-export-box {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: 24px 28px;
+  min-width: 520px;
+  max-width: 680px;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  animation: modal-enter 0.2s ease;
+}
+.sg-export-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.sg-export-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+.sg-export-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+.sg-export-close:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-primary);
+}
+.sg-export-tabs {
+  display: flex;
+  gap: 4px;
+  border-bottom: 1px solid var(--border-subtle);
+  padding-bottom: 0;
+}
+.sg-export-tab {
+  padding: 6px 14px;
+  border: none;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: var(--text-muted);
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+.sg-export-tab:hover {
+  color: var(--text-secondary);
+}
+.sg-export-tab.active {
+  color: var(--accent-cyan);
+  border-bottom-color: var(--accent-cyan);
+}
+.sg-export-code {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  max-height: 400px;
+}
+.sg-export-code pre {
+  margin: 0;
+  padding: 16px;
+  border-radius: var(--radius-md);
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--border-subtle);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1.7;
+  color: var(--text-secondary);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.sg-export-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+/* ---- Empty state ---- */
+.sg-empty {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: var(--text-muted);
+  font-size: 14px;
+}
+.sg-empty svg {
+  opacity: 0.25;
+  margin-bottom: 4px;
+}
+.sg-empty-hint {
+  font-size: 12px;
+  color: var(--text-muted);
+  opacity: 0.7;
+}

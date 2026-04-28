@@ -1,0 +1,97 @@
+@import "tailwindcss";
+@import "@heroui/styles";
+
+/* ===== DARK THEME DESIGN TOKENS ===== */
+:root {
+  --bg-base: #0a0a12;
+  --bg-surface: #111119;
+  --bg-elevated: #1a1a28;
+  --bg-overlay: rgba(17, 17, 25, 0.85);
+
+  --text-primary: #e2e8f0;
+  --text-secondary: #94a3b8;
+  --text-muted: #4a5568;
+  --text-accent: #22d3ee;
+
+  --accent-indigo: #7c3aed;
+  --accent-violet: #6366f1;
+  --accent-cyan: #22d3ee;
+  --accent-glow: rgba(124, 58, 237, 0.25);
+  --accent-cyan-glow: rgba(34, 211, 238, 0.2);
+
+  --border-subtle: rgba(255, 255, 255, 0.05);
+  --border-medium: rgba(255, 255, 255, 0.08);
+  --border-accent: rgba(124, 58, 237, 0.3);
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.6);
+  --shadow-glow-purple: 0 0 24px rgba(124, 58, 237, 0.15);
+  --shadow-glow-cyan: 0 0 16px rgba(34, 211, 238, 0.12);
+  --shadow-inset: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+
+  --transition-fast: 120ms ease;
+  --transition-normal: 220ms ease;
+  --transition-slow: 380ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  --gradient-primary: linear-gradient(135deg, #7c3aed 0%, #6366f1 50%, #818cf8 100%);
+  --gradient-surface: linear-gradient(180deg, rgba(124, 58, 237, 0.04) 0%, transparent 100%);
+  --gradient-sidebar: linear-gradient(195deg, #0f0f1a 0%, #111119 40%, #0d0d18 100%);
+}
+
+/* Override HeroUI theme tokens for dark mode */
+@theme {
+  --color-background: var(--bg-base);
+  --color-foreground: var(--text-primary);
+  --color-primary: var(--accent-indigo);
+  --color-content1: var(--bg-surface);
+  --color-content2: var(--bg-elevated);
+  --color-content3: #22222e;
+  --color-content4: #2a2a3a;
+  --color-divider: var(--border-subtle);
+}
+
+@layer base {
+  body {
+    background-color: var(--bg-base);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+/* ===== CUSTOM SCROLLBAR ===== */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.14);
+}
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
