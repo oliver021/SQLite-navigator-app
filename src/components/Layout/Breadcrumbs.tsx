@@ -2,7 +2,7 @@ import { Database, TerminalSquare, GitBranch, Table2 } from 'lucide-react';
 
 interface BreadcrumbsProps {
   connectionString: string | null;
-  activeView: 'data' | 'query' | 'schema-graph';
+  activeView: 'data' | 'query' | 'schema-graph' | 'maintenance';
   activeTableName: string | null;
 }
 
@@ -36,6 +36,14 @@ export default function Breadcrumbs({
           <span className="breadcrumb-separator">/</span>
           <span className="breadcrumb-chip table">
             <GitBranch size={12} /> Schema Graph
+          </span>
+        </>
+      )}
+      {activeView === 'maintenance' && (
+        <>
+          <span className="breadcrumb-separator">/</span>
+          <span className="breadcrumb-chip table">
+            <Table2 size={12} /> Maintenance
           </span>
         </>
       )}

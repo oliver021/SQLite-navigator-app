@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { X, Plus, Trash2, Filter, AlertCircle } from 'lucide-react';
 
 export interface FilterRule {

@@ -46,7 +46,7 @@ const MERMAID_CONFIG = {
   },
   er: {
     diagramPadding: 30,
-    layoutDirection: 'TB',
+    layoutDirection: 'TB' as const,
     minEntityWidth: 140,
     minEntityHeight: 50,
     entityPadding: 12,
@@ -194,7 +194,7 @@ export default function SchemaGraph() {
   const [pan, setPan] = useState({ x: 0, y: 0 });
   const [exportOpen, setExportOpen] = useState(false);
   const [exportTab, setExportTab] = useState<'mermaid' | 'plantuml' | 'ddl'>('mermaid');
-  const [isLoading, setIsLoading] = useState(false);
+  const [, setIsLoading] = useState(false);
 
   const canvasRef = useRef<HTMLDivElement>(null);
   const isPanning = useRef(false);

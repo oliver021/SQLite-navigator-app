@@ -1,5 +1,5 @@
 import './App.css';
-import { useState, useCallback, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useStore } from './store/useStore';
 import { Search, Columns3, Zap, Filter } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -44,7 +44,7 @@ export default function App() {
   const [editCell, setEditCell] = useState<{ rowIdx: number; col: string } | null>(null);
   const [editValue, setEditValue] = useState('');
   const [deleteTarget, setDeleteTarget] = useState<{ pkCol: string; pkVal: any; label: string } | null>(null);
-  const searchTimerRef = useRef<ReturnType<typeof setTimeout>>();
+  const searchTimerRef = useRef<any>(null);
   const [localSearch, setLocalSearch] = useState('');
 
   const tables      = schema.filter(t => t.type === 'table');

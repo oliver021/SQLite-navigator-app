@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { 
-  Database, ShieldCheck, Zap, Trash2, Info, 
+  ShieldCheck, Zap, Info, 
   HardDrive, FileText, CheckCircle, AlertTriangle 
 } from 'lucide-react';
 import './MaintenanceView.css';

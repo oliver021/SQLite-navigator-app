@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { X, FileCode, ImageIcon, Cpu, Download } from 'lucide-react';
 
 interface BlobViewerProps {
@@ -32,7 +32,7 @@ export default function BlobViewer({ data, onClose }: BlobViewerProps) {
   };
 
   const downloadBlob = () => {
-    const blob = new Blob([bytes], { type: 'application/octet-stream' });
+    const blob = new Blob([bytes as any], { type: 'application/octet-stream' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
@@ -41,7 +41,7 @@ export default function BlobViewer({ data, onClose }: BlobViewerProps) {
     URL.revokeObjectURL(url);
   };
 
-  const imageUrl = isImage() ? URL.createObjectURL(new Blob([bytes])) : null;
+  const imageUrl = isImage() ? URL.createObjectURL(new Blob([bytes as any])) : null;
 
   return (
     <div className="modal-overlay" onClick={onClose}>

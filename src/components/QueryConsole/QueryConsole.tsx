@@ -19,7 +19,7 @@ export default function QueryConsole() {
   const { schema } = useStore();
   const {
     results, writeInfo, error, isRunning, execTime, history,
-    execute, clear, setHistory
+    execute, clear
   } = useQueryExecution();
 
   // Advanced State

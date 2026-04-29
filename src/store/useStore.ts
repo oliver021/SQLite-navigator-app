@@ -30,7 +30,7 @@ interface DatabaseState {
   showAllColumns: boolean;
 
   // View mode
-  activeView: 'data' | 'query' | 'schema-graph';
+  activeView: 'data' | 'query' | 'schema-graph' | 'maintenance';
 
   setConnection: (connStr: string) => void;
   setSchema: (schema: any[]) => void;
