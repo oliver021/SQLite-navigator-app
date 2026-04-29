@@ -22,6 +22,9 @@ interface DatabaseState {
   // Search
   searchTerm: string;
 
+  // Filter
+  filters: any[];
+
   // Column visibility – maps tableName -> Set of visible column names
   visibleColumnsMap: Record<string, string[]>;
   showAllColumns: boolean;
@@ -38,9 +41,10 @@ interface DatabaseState {
   setPageSize: (size: number) => void;
   setSort: (column: string | null, direction?: 'asc' | 'desc') => void;
   setSearchTerm: (term: string) => void;
+  setFilters: (filters: any[]) => void;
   setVisibleColumns: (tableName: string, columns: string[]) => void;
   setShowAllColumns: (show: boolean) => void;
-  setActiveView: (view: 'data' | 'query') => void;
+  setActiveView: (view: 'data' | 'query' | 'schema-graph' | 'maintenance') => void;
   
   refreshSchema: () => Promise<void>;
   refreshTableData: () => Promise<void>;
@@ -63,6 +67,7 @@ export const useStore = create<DatabaseState>((set, get) => ({
   sortColumn: null,
   sortDirection: 'asc',
   searchTerm: '',
+  filters: [],
 
   visibleColumnsMap: {},
   showAllColumns: false,
@@ -92,6 +97,7 @@ export const useStore = create<DatabaseState>((set, get) => ({
       sortColumn: null,
       sortDirection: 'asc',
       searchTerm: '',
+      filters: [],
       showAllColumns: false,
     });
     get().refreshTableData();
@@ -128,6 +134,11 @@ export const useStore = create<DatabaseState>((set, get) => ({
     set({ searchTerm: term, currentPage: 1 });
     get().refreshTableData();
   },
+  
+  setFilters: (filters) => {
+    set({ filters, currentPage: 1 });
+    get().refreshTableData();
+  },
 
   setVisibleColumns: (tableName, columns) => {
     const { visibleColumnsMap } = get();
@@ -158,15 +169,15 @@ export const useStore = create<DatabaseState>((set, get) => ({
   },
 
   refreshTableData: async () => {
-    const { activeTableName, currentPage, pageSize, sortColumn, sortDirection, searchTerm } = get();
+    const { activeTableName, currentPage, pageSize, sortColumn, sortDirection, searchTerm, filters } = get();
     if (activeTableName) {
       set({ isLoading: true });
       const offset = (currentPage - 1) * pageSize;
       const search = searchTerm.trim() || undefined;
       
       const [data, count] = await Promise.all([
-        window.sqlitenav.getTableData(activeTableName, pageSize, offset, sortColumn ?? undefined, sortDirection, search),
-        window.sqlitenav.getTableRowCount(activeTableName, search),
+        window.sqlitenav.getTableData(activeTableName, pageSize, offset, sortColumn ?? undefined, sortDirection, search, filters),
+        window.sqlitenav.getTableRowCount(activeTableName, search, filters),
       ]);
       
       set({ activeTableData: data, totalRows: count, isLoading: false });

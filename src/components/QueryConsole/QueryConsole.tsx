@@ -22,6 +22,11 @@ export default function QueryConsole() {
     execute, clear, setHistory
   } = useQueryExecution();
 
+  // Advanced State
+  const [inTransaction, setInTransaction] = useState(false);
+  const [queryPlan, setQueryPlan] = useState<any[] | null>(null);
+  const [isAutoCommit, setIsAutoCommit] = useState(true);
+
   // UI State
   const [sql, setSql] = useState('SELECT * FROM ');
   const [theme, setTheme] = useState('sqlitenav-dark');
@@ -35,12 +40,42 @@ export default function QueryConsole() {
   const dragging = useRef(false);
 
   /* ----- Actions ----- */
-  const runQuery = useCallback(() => {
+  const runQuery = useCallback(async () => {
     const query = editorRef.current?.getValue()?.trim();
     if (!query) return;
+    
+    // If not auto-commit and not in transaction, start one
+    if (!isAutoCommit && !inTransaction) {
+      await window.sqlitenav.beginTransaction();
+      setInTransaction(true);
+    }
+
     setTab('results');
+    setQueryPlan(null);
     execute(query);
-  }, [execute]);
+  }, [execute, isAutoCommit, inTransaction]);
+
+  const analyzeQuery = async () => {
+    const query = editorRef.current?.getValue()?.trim();
+    if (!query) return;
+    try {
+      const plan = await window.sqlitenav.explainQueryPlan(query);
+      setQueryPlan(plan);
+      setTab('results'); // Use results area for plan
+    } catch (err: any) {
+      console.error(err);
+    }
+  };
+
+  const handleCommit = async () => {
+    await window.sqlitenav.commitTransaction();
+    setInTransaction(false);
+  };
+
+  const handleRollback = async () => {
+    await window.sqlitenav.rollbackTransaction();
+    setInTransaction(false);
+  };
 
   const handleClear = () => {
     editorRef.current?.setValue('');
@@ -105,7 +140,32 @@ export default function QueryConsole() {
             <Play size={13} />
             {isRunning ? 'Running…' : 'Run'}
           </button>
-          <span className="qc-shortcut">Ctrl + Enter</span>
+          
+          <button className="qc-secondary-btn" onClick={analyzeQuery} title="Explain Query Plan">
+            Analyze
+          </button>
+
+          <div className="qc-divider-v" />
+
+          <div className="qc-transaction-toggle" title="Auto-commit mode">
+            <input 
+              type="checkbox" 
+              id="autocommit" 
+              checked={isAutoCommit} 
+              onChange={e => {
+                setIsAutoCommit(e.target.checked);
+                if (e.target.checked && inTransaction) handleCommit();
+              }} 
+            />
+            <label htmlFor="autocommit">Auto-commit</label>
+          </div>
+
+          {inTransaction && (
+            <div className="qc-transaction-actions">
+              <button className="qc-commit-btn" onClick={handleCommit}>Commit</button>
+              <button className="qc-rollback-btn" onClick={handleRollback}>Rollback</button>
+            </div>
+          )}
 
           <div className="qc-spacer" />
 
@@ -172,6 +232,15 @@ export default function QueryConsole() {
             <History size={11} /> History
           </button>
 
+          {queryPlan && (
+            <button
+              className={`qc-tab${tab === 'results' && queryPlan ? ' active' : ''}`}
+              onClick={() => { setTab('results'); }}
+            >
+              Query Plan
+            </button>
+          )}
+
           <div className="qc-spacer" />
 
           {execTime != null && (
@@ -200,6 +269,29 @@ export default function QueryConsole() {
                 setTab('results');
               }} 
             />
+          ) : queryPlan ? (
+            <div className="qc-query-plan">
+              <table className="qc-results-table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Parent</th>
+                    <th>Not Used</th>
+                    <th>Detail</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {queryPlan.map((p, i) => (
+                    <tr key={i}>
+                      <td>{p.id}</td>
+                      <td>{p.parent}</td>
+                      <td>{p.notused}</td>
+                      <td style={{ color: 'var(--accent-cyan)', fontFamily: 'var(--font-mono)' }}>{p.detail}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           ) : (
             <QueryResults 
               results={results} 

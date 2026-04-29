@@ -70,15 +70,16 @@ ipcMain.handle('ag:getSchema', () => {
   return dbManager.getSchema();
 });
 
-ipcMain.handle('ag:getTableRowCount', (_, tableName: string, search?: string) => {
-  return dbManager.getTableRowCount(tableName, search);
+ipcMain.handle('ag:getTableRowCount', (_, tableName: string, search?: string, filters?: any[]) => {
+  return dbManager.getTableRowCount(tableName, search, filters);
 });
 
 ipcMain.handle('ag:getTableData', (
   _, tableName: string, limit?: number, offset?: number,
-  sortColumn?: string, sortDirection?: 'asc' | 'desc', search?: string
+  sortColumn?: string, sortDirection?: 'asc' | 'desc', search?: string,
+  filters?: any[]
 ) => {
-  return dbManager.getTableData(tableName, limit, offset, sortColumn, sortDirection, search);
+  return dbManager.getTableData(tableName, limit, offset, sortColumn, sortDirection, search, filters);
 });
 
 ipcMain.handle('ag:executeQuery', (_, query: string, params?: any[]) => {
@@ -99,4 +100,33 @@ ipcMain.handle('ag:deleteRow', (_, tableName: string, primaryKeyColumn: string, 
 
 ipcMain.handle('ag:getRelations', () => {
   return dbManager.getRelations();
+});
+
+// Advanced Features
+ipcMain.handle('ag:explainQueryPlan', (_, query: string) => {
+  return dbManager.explainQueryPlan(query);
+});
+
+ipcMain.handle('ag:beginTransaction', () => {
+  return dbManager.beginTransaction();
+});
+
+ipcMain.handle('ag:commitTransaction', () => {
+  return dbManager.commitTransaction();
+});
+
+ipcMain.handle('ag:rollbackTransaction', () => {
+  return dbManager.rollbackTransaction();
+});
+
+ipcMain.handle('ag:getTransactionStatus', () => {
+  return dbManager.getTransactionStatus();
+});
+
+ipcMain.handle('ag:getDatabaseStats', () => {
+  return dbManager.getDatabaseStats();
+});
+
+ipcMain.handle('ag:runMaintenance', (_, task: 'vacuum' | 'optimize' | 'integrity') => {
+  return dbManager.runMaintenance(task);
 });

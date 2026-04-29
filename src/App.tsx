@@ -1,7 +1,7 @@
 import './App.css';
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { useStore } from './store/useStore';
-import { Search, Columns3, Zap } from 'lucide-react';
+import { Search, Columns3, Zap, Filter } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 
 // Hooks & Utils
@@ -20,6 +20,8 @@ import ColumnPicker from './components/DataTable/ColumnPicker';
 import ToastContainer from './components/UI/ToastContainer';
 import QueryConsole from './components/QueryConsole/QueryConsole';
 import SchemaGraph from './components/SchemaGraph/SchemaGraph';
+import FilterModal from './components/DataTable/FilterModal';
+import MaintenanceView from './components/Maintenance/MaintenanceView';
 
 export default function App() {
   const {
@@ -29,6 +31,7 @@ export default function App() {
     setPage, setPageSize, isLoading,
     sortColumn, sortDirection, setSort,
     searchTerm, setSearchTerm,
+    filters, setFilters,
     visibleColumnsMap, setVisibleColumns, showAllColumns, setShowAllColumns,
     activeView, setActiveView,
   } = useStore();
@@ -37,6 +40,7 @@ export default function App() {
 
   // Local UI state
   const [colPickerOpen, setColPickerOpen] = useState(false);
+  const [filterModalOpen, setFilterModalOpen] = useState(false);
   const [editCell, setEditCell] = useState<{ rowIdx: number; col: string } | null>(null);
   const [editValue, setEditValue] = useState('');
   const [deleteTarget, setDeleteTarget] = useState<{ pkCol: string; pkVal: any; label: string } | null>(null);
@@ -164,6 +168,17 @@ export default function App() {
               >
                 <SchemaGraph />
               </motion.div>
+            ) : activeView === 'maintenance' ? (
+              <motion.div
+                key="maintenance"
+                className="table-view"
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -6 }}
+                transition={{ duration: 0.18 }}
+              >
+                <MaintenanceView />
+              </motion.div>
             ) : activeTableName ? (
               <motion.div
                 key={activeTableName}
@@ -214,7 +229,29 @@ export default function App() {
                       />
                     )}
                   </div>
+
+                  <button
+                    className={`icon-btn${filters.length > 0 ? ' active' : ''}`}
+                    title="Advanced Filters"
+                    onClick={() => setFilterModalOpen(true)}
+                  >
+                    <Filter size={15} />
+                    {filters.length > 0 && <span className="btn-badge">{filters.length}</span>}
+                  </button>
                 </div>
+
+                {/* Filter Modal */}
+                {filterModalOpen && activeTableName && (
+                  <FilterModal
+                    columns={tableDef?.columns || []}
+                    filters={filters}
+                    onApply={(newFilters) => {
+                      setFilters(newFilters);
+                      setFilterModalOpen(false);
+                    }}
+                    onClose={() => setFilterModalOpen(false)}
+                  />
+                )}
 
                 {/* Main Data Table */}
                 <DataTable

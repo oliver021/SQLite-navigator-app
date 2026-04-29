@@ -1084,3 +1084,132 @@
   to   { opacity: 1; transform: translateX(0) scale(1); }
 }
 
+/* ==========================================================================
+   FILTER MODAL
+   ========================================================================== */
+.filter-modal {
+  width: 580px;
+  max-width: 95vw;
+}
+
+.filter-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 120px;
+}
+
+.empty-filters {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 40px 0;
+  color: var(--text-muted);
+}
+
+.filter-rule-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  animation: fade-in 0.2s ease;
+}
+
+.filter-select {
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  border: 1px solid var(--border-medium);
+  border-radius: 4px;
+  padding: 6px 8px;
+  font-size: 12px;
+  outline: none;
+}
+.filter-select.col { flex: 2; }
+.filter-select.op { flex: 1.5; }
+
+.filter-input {
+  flex: 3;
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  border: 1px solid var(--border-medium);
+  border-radius: 4px;
+  padding: 6px 10px;
+  font-size: 12px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.filter-input:focus {
+  border-color: var(--accent-indigo);
+}
+
+.filter-remove-btn {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+.filter-remove-btn:hover {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+}
+
+.icon-cyan {
+  color: var(--accent-cyan);
+}
+
+.flex-spacer {
+  flex: 1;
+}
+
+.modal-footer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.btn-secondary {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.btn-ghost {
+  padding: 8px 14px;
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 12px;
+  cursor: pointer;
+}
+.btn-ghost:hover {
+  color: var(--text-primary);
+}
+.btn-badge { position: absolute; top: -6px; right: -6px; background: var(--accent-violet); color: white; font-size: 9px; font-weight: 700; width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 8px rgba(124, 58, 237, 0.5); border: 1px solid rgba(255, 255, 255, 0.2); } 
+.blob-viewer { width: 800px; max-width: 95vw; } .size-badge { font-size: 10px; padding: 2px 8px; background: rgba(255,255,255,0.06); border-radius: 10px; color: var(--text-muted); font-family: var(--font-mono); margin-left: 8px; } .hex-dump { font-family: 'JetBrains Mono', monospace; font-size: 11px; line-height: 1.5; color: var(--text-secondary); background: rgba(0,0,0,0.2); padding: 16px; border-radius: 4px; overflow: auto; max-height: 400px; white-space: pre; } .image-preview-container { display: flex; align-items: center; justify-content: center; padding: 20px; background: rgba(0,0,0,0.1); border-radius: 4px; min-height: 200px; } .blob-image { max-width: 100%; max-height: 400px; box-shadow: var(--shadow-lg); border: 1px solid var(--border-medium); } 
+.blob-link-btn { display: flex; align-items: center; gap: 6px; padding: 4px 8px; background: rgba(34, 211, 238, 0.08); border: 1px solid rgba(34, 211, 238, 0.2); border-radius: 4px; color: var(--accent-cyan); font-family: var(--font-mono); font-size: 11px; cursor: pointer; transition: all 0.2s; } .blob-link-btn:hover { background: rgba(34, 211, 238, 0.15); border-color: var(--accent-cyan); transform: translateY(-1px); } 

@@ -1,7 +1,9 @@
+import { useState } from 'react';
 import { 
   ArrowUp, ArrowDown, ArrowUpDown, 
-  Database, Pencil, Copy, Trash2 
+  Database, Pencil, Copy, Trash2, Cpu 
 } from 'lucide-react';
+import BlobViewer from '../UI/BlobViewer';
 
 interface DataTableProps {
   isLoading: boolean;
@@ -40,6 +42,12 @@ function SkeletonRows({ columns }: { columns: number }) {
   );
 }
 
+const isBlob = (val: any) => {
+  if (val instanceof Uint8Array) return true;
+  if (val && typeof val === 'object' && val.type === 'Buffer' && Array.isArray(val.data)) return true;
+  return false;
+};
+
 export default function DataTable({
   isLoading,
   columns,
@@ -58,6 +66,8 @@ export default function DataTable({
   onCopyRow,
   onDeleteRow,
 }: DataTableProps) {
+  const [selectedBlob, setSelectedBlob] = useState<any | null>(null);
+
   return (
     <div className="table-container">
       <table className="data-table">
@@ -116,10 +126,17 @@ export default function DataTable({
                       title={row[col.name] != null ? String(row[col.name]) : 'NULL'}
                       onDoubleClick={() => pkCol && onStartEdit(idx, col.name, row[col.name])}
                     >
-                      {row[col.name] != null
-                        ? <span className={pkCol ? 'cell-value cell-editable' : 'cell-value'}>{String(row[col.name])}</span>
-                        : <span className="null-value">NULL</span>
-                      }
+                      {row[col.name] != null ? (
+                        isBlob(row[col.name]) ? (
+                          <button className="blob-link-btn" onClick={() => setSelectedBlob(row[col.name])}>
+                            <Cpu size={12} /> BLOB ({row[col.name].length || row[col.name].data?.length || 0} bytes)
+                          </button>
+                        ) : (
+                          <span className={pkCol ? 'cell-value cell-editable' : 'cell-value'}>{String(row[col.name])}</span>
+                        )
+                      ) : (
+                        <span className="null-value">NULL</span>
+                      )}
                     </td>
                   );
                 })}
@@ -167,6 +184,13 @@ export default function DataTable({
           )}
         </tbody>
       </table>
+
+      {selectedBlob && (
+        <BlobViewer 
+          data={selectedBlob.data || selectedBlob} 
+          onClose={() => setSelectedBlob(null)} 
+        />
+      )}
     </div>
   );
 }

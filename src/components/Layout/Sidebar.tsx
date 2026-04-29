@@ -1,10 +1,10 @@
-import { Database, FolderOpen, TerminalSquare, GitBranch, Layers, Table2, Eye } from 'lucide-react';
+import { Database, FolderOpen, TerminalSquare, GitBranch, Layers, Table2, Eye, ShieldCheck } from 'lucide-react';
 
 interface SidebarProps {
   connectionString: string | null;
   onOpenDatabase: () => void;
-  activeView: 'data' | 'query' | 'schema-graph';
-  onViewChange: (view: 'data' | 'query' | 'schema-graph') => void;
+  activeView: 'data' | 'query' | 'schema-graph' | 'maintenance';
+  onViewChange: (view: 'data' | 'query' | 'schema-graph' | 'maintenance') => void;
   tables: any[];
   views: any[];
   activeTableName: string | null;
@@ -58,6 +58,15 @@ export default function Sidebar({
                 >
                   <GitBranch size={14} className="nav-item-icon" />
                   <span className="nav-item-label">Schema Graph</span>
+                </button>
+              </li>
+              <li>
+                <button
+                  className={`nav-item${activeView === 'maintenance' ? ' active' : ''}`}
+                  onClick={() => onViewChange('maintenance')}
+                >
+                  <ShieldCheck size={14} className="nav-item-icon" />
+                  <span className="nav-item-label">Maintenance</span>
                 </button>
               </li>
             </ul>
