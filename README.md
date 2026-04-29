@@ -4,17 +4,27 @@ A premium, feature-rich SQLite database explorer and management studio built wit
 
 ## Features
 
-- **Modern UI**: Sleek dark theme with glassmorphism and smooth animations.
-- **Data Explorer**: High-performance table view with server-side sorting, filtering, and pagination.
-- **Inline Editing**: Double-click cells to edit data in real-time.
-- **Query Console**: Advanced SQL editor with Monaco, autocompletion, and multi-theme support.
-- **Smart Columns**: Customizable column visibility and automatic primary key detection.
-- **Row Actions**: Copy as JSON, delete with confirmation, and quick edit.
+### 📊 Modern Dashboard & Maintenance
+Sleek dark theme with glassmorphism, real-time database health monitoring, and one-click optimization tools (Vacuum, Integrity Check).
+![Dashboard](screenshots/dashboard-01.png)
+
+### 🗂️ Data Explorer
+High-performance table view with server-side sorting, advanced filtering, and pagination. Double-click any cell for **Inline Editing**.
+![Data Table](screenshots/data-table.png)
+
+### 💻 Advanced Query Console
+Pro-grade SQL editor powered by Monaco. Includes context-aware autocompletion, multi-theme support, and a **Visual Query Plan** analyzer.
+![Query Editor](screenshots/query-editor.png)
+
+### 🕸️ Schema Graph
+Professional mermaid-based visualization of your database structure, tracking foreign key relationships and UML exports.
+![Schema Graph](screenshots/schema.png)
 
 ## Tech Stack
 
 - **Frontend**: React 19, TypeScript, Vite, Framer Motion, Lucide Icons.
 - **Editor**: Monaco Editor (via @monaco-editor/react).
+- **Visualization**: Mermaid.js for Schema Graphs.
 - **Backend**: Electron, better-sqlite3.
 - **Styling**: Vanilla CSS with modern variables and animations.
 
