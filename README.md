@@ -18,7 +18,20 @@ A premium, feature-rich SQLite database explorer and management studio built wit
 - **Backend**: Electron, better-sqlite3.
 - **Styling**: Vanilla CSS with modern variables and animations.
 
-## Getting Started
+## Installation
+
+For the latest stable version, visit the [Releases](https://github.com/oliver021/sqlite-navigator/releases) page and download the installer for your operating system:
+
+- **Windows**: Download the `.exe` installer.
+- **macOS**: Download the `.dmg` file.
+- **Linux**: Download the `.AppImage` file.
+
+> [!IMPORTANT]
+> **Security Note**: As this application is not digitally signed with a commercial certificate, your OS may show a security warning.
+> - **Windows**: Click "More info" and then "Run anyway".
+> - **macOS**: Right-click the app and select "Open", or go to System Settings > Privacy & Security to allow the app.
+
+## Development
 
 1. Install dependencies:
    ```bash
