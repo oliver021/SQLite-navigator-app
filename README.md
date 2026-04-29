@@ -30,7 +30,7 @@ Professional mermaid-based visualization of your database structure, tracking fo
 
 ## Installation
 
-For the latest stable version, visit the [Releases](https://github.com/oliver021/sqlite-navigator/releases) page and download the installer for your operating system:
+For the latest stable version, visit the [Releases]((https://github.com/oliver021/SQLite-navigator-app/releases) page and download the installer for your operating system:
 
 - **Windows**: Download the `.exe` installer.
 - **macOS**: Download the `.dmg` file.
